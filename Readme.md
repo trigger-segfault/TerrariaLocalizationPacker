@@ -10,7 +10,7 @@ A manager for packing and unpacking Terraria localization .json files.
 ## About
 
 * **Created By:** Robert Jordan
-* **Version:** 1.0.0.0 *(not yet released)*
+* **Version:** 1.0.0.0
 * **Language:** C#, WPF
 
 ## Requirements for Running
