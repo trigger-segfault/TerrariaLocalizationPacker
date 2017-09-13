@@ -1,7 +1,7 @@
 # Terraria Localization Packer ![AppIcon](https://i.imgur.com/MxXCC9K.png)
 A manager for packing and unpacking Terraria localization .json files.
 
-![Window Preview](https://i.imgur.com/SGGhGYv.png)
+![Window Preview](https://i.imgur.com/6KZJUQi.png)
 
 ### [Wiki](https://github.com/trigger-death/TerrariaLocalizationPacker/wiki) | [Credits](https://github.com/trigger-death/TerrariaLocalizationPacker/wiki/Credits) | [Image Album](https://imgur.com/a/sla5H)
 
@@ -28,4 +28,6 @@ A manager for packing and unpacking Terraria localization .json files.
 * Automatically creates a backup when repacking if one does not exist.
 * Restore Terraria to the backed up executable.
 
-### [About JSON Format](https://en.wikipedia.org/wiki/JSON)
+## Help
+* [About Localization Files](https://github.com/trigger-death/TerrariaLocalizationPacker/wiki/About-Localization-Files)
+* [About JSON Format](https://en.wikipedia.org/wiki/JSON)
