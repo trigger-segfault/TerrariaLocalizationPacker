@@ -70,7 +70,11 @@ namespace TerrariaLocalizationPacker {
 				}
 			}
 			LocalizationPacker.OutputDirectory = Settings.Default.OutputDirectory;
+			if (string.IsNullOrEmpty(LocalizationPacker.OutputDirectory))
+				LocalizationPacker.OutputDirectory = LocalizationPacker.AppDirectory;
 			LocalizationPacker.InputDirectory = Settings.Default.InputDirectory;
+			if (string.IsNullOrEmpty(LocalizationPacker.InputDirectory))
+				LocalizationPacker.InputDirectory = LocalizationPacker.AppDirectory;
 
 			textBoxExe.Text = LocalizationPacker.ExePath;
 			textBoxOutput.Text = LocalizationPacker.OutputDirectory;
