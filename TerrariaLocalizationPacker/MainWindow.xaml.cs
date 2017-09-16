@@ -165,6 +165,9 @@ namespace TerrariaLocalizationPacker {
 			MessageBoxResult result = MessageBoxResult.No;
 			if (!ValidPathTest() || !ValidPathTest2(false))
 				return;
+			result = TriggerMessageBox.Show(this, MessageIcon.Question, "Are you sure you want to unpack localizations from the current Terraria executable?", "Unpack Localizations", MessageBoxButton.YesNo);
+			if (result == MessageBoxResult.No)
+				return;
 			try {
 				LocalizationPacker.Unpack();
 				result = TriggerMessageBox.Show(this, MessageIcon.Info, "Localizations successfully unpacked! Would you like to open the output folder?", "Localizations Unpacked", MessageBoxButton.YesNo);

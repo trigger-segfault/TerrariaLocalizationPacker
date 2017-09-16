@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TerrariaLocalizationPacker"
         mc:Ignorable="d"
-        Title="Credits" Height="174" Width="320" Background="#FFECEEF1" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="/TerrariaLocalizationPacker;component/Resources/Icons/Credits.png">
+        Title="Credits" Height="190" Width="320" Background="#FFECEEF1" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="/TerrariaLocalizationPacker;component/Resources/Icons/Credits.png">
     <Grid>
         <Button Content="Close" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="80" IsDefault="True" Click="OnCloseClicked"/>
         <StackPanel Margin="10,10,10,37">
             <TextBlock TextWrapping="Wrap" Padding="5">
-                Packing capabilities thanks to <Hyperlink NavigateUri="http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cecil/" RequestNavigate="OnRequestNavigate">Mono.Cecil</Hyperlink>.
+                Patching capabilities thanks to  <Hyperlink NavigateUri="https://github.com/dougbenham/TerrariaPatcher" RequestNavigate="OnRequestNavigate">TerrariaPatcher</Hyperlink> and <Hyperlink NavigateUri="http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cecil/" RequestNavigate="OnRequestNavigate">Mono.Cecil</Hyperlink>.
             </TextBlock>
             <Separator Height="11" Margin="20,0">
                 <Separator.Background>

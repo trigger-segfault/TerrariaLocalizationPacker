@@ -82,8 +82,10 @@ namespace TerrariaLocalizationPacker.Packing {
 				}
 			}
 
-			if (filesFound)
+			if (filesFound) {
 				AsmDefinition.Write(ExePath);
+				IL.MakeLargeAddressAware(ExePath);
+			}
 
 			return filesFound;
 		}
