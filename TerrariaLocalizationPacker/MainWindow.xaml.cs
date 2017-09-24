@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TerrariaLocalizationPacker.Windows;
-using IOPath = System.IO.Path;
-using IOFile = System.IO.File;
-using IODirectory = System.IO.Directory;
+using System.IO;
+using Path = System.IO.Path;
+using File = System.IO.File;
 using TerrariaLocalizationPacker.Properties;
 using Microsoft.Win32;
 using System.Xml;
 using System.Diagnostics;
-using TerrariaLocalizationPacker.Packing;
+using TerrariaLocalizationPacker.Patching;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using TerrariaLocalizationPacker.Util;
 
 namespace TerrariaLocalizationPacker {
 	/**<summary>The main window running Terraria Item Modifier.</summary>*/
@@ -51,9 +52,14 @@ namespace TerrariaLocalizationPacker {
 			LoadSettings();
 			
 			// Disable drag/drop text in textboxes so you can scroll their contents easily
-			DataObject.AddCopyingHandler(textBoxExe, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
-			DataObject.AddCopyingHandler(textBoxOutput, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
-			DataObject.AddCopyingHandler(textBoxInput, (sender, e) => { if (e.IsDragDrop) e.CancelCommand(); });
+			DataObject.AddCopyingHandler(textBoxExe, OnTextBoxCancelDrag);
+			DataObject.AddCopyingHandler(textBoxOutput, OnTextBoxCancelDrag);
+			DataObject.AddCopyingHandler(textBoxInput, OnTextBoxCancelDrag);
+			
+			// Remove quotes from "Copy Path" command on paste
+			DataObject.AddPastingHandler(textBoxExe, OnTextBoxQuotesPaste);
+			DataObject.AddPastingHandler(textBoxOutput, OnTextBoxQuotesPaste);
+			DataObject.AddPastingHandler(textBoxInput, OnTextBoxQuotesPaste);
 		}
 
 		#endregion
@@ -97,7 +103,7 @@ namespace TerrariaLocalizationPacker {
 				return false;
 			}
 			try {
-				if (!IOFile.Exists(LocalizationPacker.ExePath) && checkExists) {
+				if (!File.Exists(LocalizationPacker.ExePath) && checkExists) {
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not find Terraria executable!", "Missing Exe");
 					return false;
 				}
@@ -118,7 +124,7 @@ namespace TerrariaLocalizationPacker {
 				return false;
 			}
 			try {
-				if (!IODirectory.Exists(directory)) {
+				if (!Directory.Exists(directory)) {
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not find " + name + " folder!", "Invalid Path");
 					return false;
 				}
@@ -140,6 +146,29 @@ namespace TerrariaLocalizationPacker {
 		private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e) {
 			SaveSettings();
 		}
+		private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+			// Make text boxes lose focus on click away
+			FocusManager.SetFocusedElement(this, this);
+		}
+		private void OnTextBoxCancelDrag(object sender, DataObjectCopyingEventArgs e) {
+			if (e.IsDragDrop)
+				e.CancelCommand();
+		}
+		private void OnTextBoxQuotesPaste(object sender, DataObjectPastingEventArgs e) {
+			var isText = e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText, true);
+			if (!isText) return;
+
+			var text = e.SourceDataObject.GetData(DataFormats.UnicodeText) as string;
+			if (text.StartsWith("\"") || text.EndsWith("\"")) {
+				text = text.Trim('"');
+				Clipboard.SetText(text);
+			}
+		}
+
+		#endregion
+		//--------------------------------
+		#region Packing
+
 		private void OnRepack(object sender, RoutedEventArgs e) {
 			MessageBoxResult result;
 			if (!ValidPathTest() || !ValidPathTest2(true))
@@ -188,7 +217,7 @@ namespace TerrariaLocalizationPacker {
 			result = TriggerMessageBox.Show(this, MessageIcon.Question, "Are you sure you want to restore the current Terraria executable to its backup?", "Restore Terraria", MessageBoxButton.YesNo);
 			if (result == MessageBoxResult.No)
 				return;
-			if (!IOFile.Exists(LocalizationPacker.BackupPath)) {
+			if (!File.Exists(LocalizationPacker.BackupPath)) {
 				TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not find Terraria backup!", "Missing Backup");
 				return;
 			}
@@ -269,10 +298,17 @@ namespace TerrariaLocalizationPacker {
 
 		private void OnLaunchTerraria(object sender, RoutedEventArgs e) {
 			try {
-				if (IOFile.Exists(LocalizationPacker.ExePath))
+				if (File.Exists(LocalizationPacker.ExePath)) {
 					Process.Start(LocalizationPacker.ExePath);
-				else
+					ProcessStartInfo start = new ProcessStartInfo();
+					start.FileName = LocalizationPacker.ExePath;
+					start.Arguments = TerrariaLocator.FindTerraLauncherSaveDirectory(LocalizationPacker.ExePath);
+					start.WorkingDirectory = LocalizationPacker.ExeDirectory;
+					Process.Start(start);
+				}
+				else {
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not locate the Terraria executable! Cannot launch Terraria.", "Missing Executable");
+				}
 			}
 			catch {
 				TriggerMessageBox.Show(this, MessageIcon.Warning, "The current path to Terraria is invalid! Cannot launch Terraria.", "Invalid Path");
@@ -280,7 +316,7 @@ namespace TerrariaLocalizationPacker {
 		}
 		private void OnOpenTerrariaFolder(object sender, RoutedEventArgs e) {
 			try {
-				if (IODirectory.Exists(LocalizationPacker.ExeDirectory))
+				if (Directory.Exists(LocalizationPacker.ExeDirectory))
 					Process.Start(LocalizationPacker.ExeDirectory);
 				else
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not locate the Terraria folder! Cannot open folder.", "Missing Folder");
@@ -291,7 +327,7 @@ namespace TerrariaLocalizationPacker {
 		}
 		private void OnOpenOutputFolder(object sender, RoutedEventArgs e) {
 			try {
-				if (IODirectory.Exists(LocalizationPacker.OutputDirectory))
+				if (Directory.Exists(LocalizationPacker.OutputDirectory))
 					Process.Start(LocalizationPacker.OutputDirectory);
 				else
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not locate the Output folder! Cannot open folder.", "Missing Folder");
@@ -302,7 +338,7 @@ namespace TerrariaLocalizationPacker {
 		}
 		private void OnOpenInputFolder(object sender, RoutedEventArgs e) {
 			try {
-				if (IODirectory.Exists(LocalizationPacker.InputDirectory))
+				if (Directory.Exists(LocalizationPacker.InputDirectory))
 					Process.Start(LocalizationPacker.InputDirectory);
 				else
 					TriggerMessageBox.Show(this, MessageIcon.Warning, "Could not locate the Input folder! Cannot open folder.", "Missing Folder");

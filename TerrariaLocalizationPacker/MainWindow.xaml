@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TerrariaLocalizationPacker"
         mc:Ignorable="d"
-        Title="Terraria Localization Packer" Height="230" Width="500" ResizeMode="CanMinimize" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="App.ico" Closing="OnClosing">
-    <DockPanel LastChildFill="True" Margin="0">
+        Title="Terraria Localization Packer" Background="#FFF0F0F0" ResizeMode="CanMinimize" SnapsToDevicePixels="True" UseLayoutRounding="True" Icon="App.ico" Closing="OnClosing" SizeToContent="WidthAndHeight" PreviewMouseDown="OnPreviewMouseDown">
+    <DockPanel LastChildFill="True" Margin="0" Height="190" Width="490">
         <Menu DockPanel.Dock="Top" x:Name="menu" BorderThickness="0,0,0,1" BorderBrush="#FF919395">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -67,30 +67,30 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Grid Background="#FFF0F0F0">
+        <Grid>
             <Label Content="Terraria's Location" HorizontalAlignment="Left" Margin="15,15,0,0" VerticalAlignment="Top" Padding="0,0,5,1" Height="23" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
-            <TextBox x:Name="textBoxExe" Height="23" Margin="121,15,51,0" VerticalAlignment="Top" IsHitTestVisible="True" IsTabStop="False" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnExeChanged"/>
-            <Button HorizontalAlignment="Right" Margin="0,15,20,0" VerticalAlignment="Top" Width="22" Height="22" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Locate Terraria executable" Click="OnBrowseExe" Focusable="False" IsTabStop="False">
+            <TextBox x:Name="textBoxExe" Height="23" Margin="121,15,52,0" VerticalAlignment="Top" IsHitTestVisible="True" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnExeChanged"/>
+            <Button HorizontalAlignment="Right" Margin="0,15,20,0" VerticalAlignment="Top" Width="23" Height="23" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Locate Terraria executable" Click="OnBrowseExe" Focusable="False" IsTabStop="False">
                 <Image Height="16" Width="16" Source="Resources/Icons/Browse.png" IsHitTestVisible="False"/>
             </Button>
 
             <Separator VerticalAlignment="Top" Margin="30,48,30,0"/>
 
             <Label Content="Unpack Folder" HorizontalAlignment="Left" Margin="15,59,0,0" VerticalAlignment="Top" Padding="0,0,5,1" VerticalContentAlignment="Center" Height="23" Width="101" HorizontalContentAlignment="Right"/>
-            <TextBox x:Name="textBoxOutput" Height="23" Margin="121,59,51,0" VerticalAlignment="Top" IsHitTestVisible="True" IsTabStop="False" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnOutputChanged"/>
-            <Button HorizontalAlignment="Right" Margin="0,59,20,0" VerticalAlignment="Top" Width="22" Height="22" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Select Output folder for unpacking" Click="OnBrowseOutput" Focusable="False" IsTabStop="False">
+            <TextBox x:Name="textBoxOutput" Height="23" Margin="121,59,52,0" VerticalAlignment="Top" IsHitTestVisible="True" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnOutputChanged"/>
+            <Button HorizontalAlignment="Right" Margin="0,59,20,0" VerticalAlignment="Top" Width="23" Height="23" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Select Output folder for unpacking" Click="OnBrowseOutput" Focusable="False" IsTabStop="False">
                 <Image Height="16" Width="16" Source="Resources/Icons/Browse.png" IsHitTestVisible="False"/>
             </Button>
 
             <Label Content="Repack Folder" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top" Padding="0,0,5,1" Height="23" VerticalContentAlignment="Center" Width="101" HorizontalContentAlignment="Right"/>
-            <TextBox x:Name="textBoxInput" Height="23" Margin="121,90,51,0" VerticalAlignment="Top" IsHitTestVisible="True" IsTabStop="False" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnInputChanged"/>
-            <Button HorizontalAlignment="Right" Margin="0,90,20,0" VerticalAlignment="Top" Width="22" Height="22" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Select Input folder for repacking" Click="OnBrowseInput" Focusable="False" IsTabStop="False">
+            <TextBox x:Name="textBoxInput" Height="23" Margin="121,90,52,0" VerticalAlignment="Top" IsHitTestVisible="True" AllowDrop="False" ScrollViewer.CanContentScroll="True" TextChanged="OnInputChanged"/>
+            <Button HorizontalAlignment="Right" Margin="0,90,20,0" VerticalAlignment="Top" Width="23" Height="23" Padding="0" Grid.IsSharedSizeScope="True" ToolTip="Select Input folder for repacking" Click="OnBrowseInput" Focusable="False" IsTabStop="False">
                 <Image Height="16" Width="16" Source="Resources/Icons/Browse.png" IsHitTestVisible="False"/>
             </Button>
 
-            <Button Content="Restore" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="OnRestore" ToolTip="Restore backup of Terraria executable"/>
             <Button Content="Unpack" HorizontalAlignment="Right" Margin="0,0,180,10" VerticalAlignment="Bottom" Width="75" Click="OnUnpack" ToolTip="Unpack Terraria localization files to Output folder"/>
             <Button Content="Repack" HorizontalAlignment="Right" Margin="0,0,95,10" VerticalAlignment="Bottom" Width="75" Click="OnRepack" ToolTip="Repack localization files in Input folder back into Terraria executable"/>
+            <Button Content="Restore" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="OnRestore" ToolTip="Restore backup of Terraria executable"/>
         </Grid>
     </DockPanel>
 </Window>

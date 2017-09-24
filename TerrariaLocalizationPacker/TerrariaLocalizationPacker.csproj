@@ -68,14 +68,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Packing\IL.cs" />
-    <Compile Include="Packing\LocalizationPacker.cs" />
+    <Compile Include="Patching\EmbeddedAssemblyResolver.cs" />
+    <Compile Include="Patching\IL.cs" />
+    <Compile Include="Patching\LocalizationPacker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TerrariaLocator.cs" />
+    <Compile Include="Util\TerrariaLocator.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -197,4 +198,19 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <!-- https://gist.github.com/thoemmi/3724333 -->
+  <Target Name="EmbedReferencedAssemblies" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <!-- get list of assemblies to copy -->
+      <AssembliesToEmbed Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'Mono.Cecil.dll'" />
+      <AssembliesToEmbed Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'Newtonsoft.Json.dll'" />
+      <!-- add these assemblies to the list of embedded resources -->
+      <EmbeddedResource Include="@(AssembliesToEmbed)">
+        <LogicalName>%(Filename)%(Extension)</LogicalName>
+      </EmbeddedResource>
+      <!-- no need to copy the assmblies locally anymore -->
+      <ReferenceCopyLocalPaths Remove="@(AssembliesToEmbed)" />
+    </ItemGroup>
+    <Message Importance="high" Text="Embedding: @(AssembliesToEmbed->'%(Filename)%(Extension)', ', ')" />
+  </Target>
 </Project>

@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Mono.Cecil;
 
-namespace TerrariaLocalizationPacker.Packing {
+namespace TerrariaLocalizationPacker.Patching {
 	public class LocalizationPacker {
 		//========== PROPERTIES ==========
 		#region Properties
@@ -64,7 +65,9 @@ namespace TerrariaLocalizationPacker.Packing {
 				File.Copy(ExePath, BackupPath, false);
 			}
 
-			var AsmDefinition = AssemblyDefinition.ReadAssembly(ExePath);
+			var resolver = new EmbeddedAssemblyResolver();
+			var parameters = new ReaderParameters{ AssemblyResolver = resolver };
+			var AsmDefinition = AssemblyDefinition.ReadAssembly(ExePath, parameters);
 			var ModDefinition = AsmDefinition.MainModule;
 
 			bool filesFound = false;
@@ -84,6 +87,8 @@ namespace TerrariaLocalizationPacker.Packing {
 
 			if (filesFound) {
 				AsmDefinition.Write(ExePath);
+				// Wait for the exe to be closed by AsmDefinition.Write()
+				Thread.Sleep(400);
 				IL.MakeLargeAddressAware(ExePath);
 			}
 

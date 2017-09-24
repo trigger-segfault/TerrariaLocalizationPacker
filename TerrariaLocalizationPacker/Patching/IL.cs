@@ -5,9 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerrariaLocalizationPacker.Packing {
-	/**<summary>From: https://github.com/dougbenham/TerrariaPatcher/blob/master/IL.cs</summary>*/
+namespace TerrariaLocalizationPacker.Patching {
+	//https://github.com/dougbenham/TerrariaPatcher/blob/master/IL.cs
+	/**<summary>The main helper class for scanning and modifying assemblies.</summary>*/
 	public static class IL {
+		//===== LARGE ADDRESS AWARE ======
+		#region Large Address Aware
+
+		/**<summary>Patches the executable to allow more memory usage. This is needed after Mono.cecil writes to the assembly.</summary>*/
 		public static void MakeLargeAddressAware(string file) {
 			using (var stream = File.Open(file, FileMode.Open, FileAccess.ReadWrite)) {
 				const int IMAGE_FILE_LARGE_ADDRESS_AWARE = 0x20;
@@ -40,5 +45,7 @@ namespace TerrariaLocalizationPacker.Packing {
 				bw.Flush();
 			}
 		}
+
+		#endregion
 	}
 }
