@@ -5,12 +5,12 @@ A manager for packing and unpacking Terraria localization .json files.
 
 ### [Wiki](https://github.com/trigger-death/TerrariaLocalizationPacker/wiki) | [Credits](https://github.com/trigger-death/TerrariaLocalizationPacker/wiki/Credits) | [Image Album](https://imgur.com/a/sla5H)
 
-### [![Get Terraria Localization Packer](https://i.imgur.com/WYEvC5D.png)](https://github.com/trigger-death/TerrariaLocalizationPacker/releases/tag/1.0.0.0)
+### [![Get Terraria Localization Packer](https://i.imgur.com/WYEvC5D.png)](https://github.com/trigger-death/TerrariaLocalizationPacker/releases/tag/1.0.0.2)
 
 ## About
 
 * **Created By:** Robert Jordan
-* **Version:** 1.0.0.0
+* **Version:** 1.0.0.2
 * **Language:** C#, WPF
 
 ## Requirements for Running
