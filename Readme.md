@@ -5,6 +5,7 @@
 [![Total Downloads](https://img.shields.io/github/downloads/trigger-death/TerrariaLocalizationPacker/total.svg?style=flat)](https://github.com/trigger-death/TerrariaLocalizationPacker/releases)
 [![Creation Date](https://img.shields.io/badge/created-september%202017-A642FF.svg?style=flat)](https://github.com/trigger-death/TerrariaLocalizationPacker/commit/8fd52c978be4e4f8bfe32d361d9ae92afb9ef459)
 [![Terraria Forums](https://img.shields.io/badge/terraria-forums-28A828.svg?style=flat)](https://forums.terraria.org/index.php?threads/61972/)
+[![Discord](https://img.shields.io/discord/436949335947870238.svg?style=flat&logo=discord&label=chat&colorB=7389DC&link=https://discord.gg/vB7jUbY)](https://discord.gg/vB7jUbY)
 
 A manager for packing and unpacking Terraria localization .json files.
 
