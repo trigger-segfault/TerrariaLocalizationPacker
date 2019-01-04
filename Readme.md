@@ -25,6 +25,7 @@ A manager for packing and unpacking Terraria localization .json files.
 * .NET Framework 4.5.2 | [Offline Installer](https://www.microsoft.com/en-us/download/details.aspx?id=42642) | [Web Installer](https://www.microsoft.com/en-us/download/details.aspx?id=42643)
 * Windows 7 or later
 * Terraria for PC
+* **For Multiplayer:** `TerrariaServer.exe` must be repacked as well, using the same files used in `Terraria.exe`. This includes those using Host & Play.
 
 ## Requirements for Source Code
 * Mono.Cecil | [Nuget Package](https://www.nuget.org/packages/Mono.Cecil/)
