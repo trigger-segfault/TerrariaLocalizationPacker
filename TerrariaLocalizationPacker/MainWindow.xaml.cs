@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -184,6 +185,36 @@ namespace TerrariaLocalizationPacker {
 					TriggerMessageBox.Show(this, MessageIcon.Info, "No localization files with the correct names were found in the Repack folder!", "No Localizations");
 			}
 			catch (Exception ex) {
+				// Automatic Restore:
+				bool restored = false; // assigned later, but unused
+				bool needsRestore = false;
+				if (!File.Exists(LocalizationPacker.ExePath)) {
+					needsRestore = true; // File doesn't exist anymore? Who knows, it could happen
+				}
+				else {
+					try {
+						// file may still be temporarily in-use, wait a short period of time
+						//  (about the same as spent after initial write)
+						Thread.Sleep(400);
+						// When writing an assembly fails, typically the resulting size is zero bytes.
+						// i.e. one time this happens is when resolving references fails.
+						// Zero bytes means automatic restore-from-backup
+						FileInfo exeInfo = new FileInfo(LocalizationPacker.ExePath);
+						needsRestore = (exeInfo.Length == 0);
+					}
+					catch (Exception ex) {
+						// file may still be in-use... wait a bit longer in the future?
+					}
+				}
+				if (needsRestore && File.Exists(LocalizationPacker.BackupPath)) {
+					try {
+						LocalizationPacker.Restore();
+						restored = true;
+					}
+					catch (Exception ex) {
+						// No harm done if we wait for the user to restore later.
+					}
+				}
 				result = TriggerMessageBox.Show(this, MessageIcon.Error, "An error occurred while repacking localizations! Would you like to see the error?", "Repack Error", MessageBoxButton.YesNo);
 				if (result == MessageBoxResult.Yes)
 					ErrorMessageBox.Show(ex, true);
